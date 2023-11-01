@@ -1,53 +1,64 @@
 import type { ImageWidget } from "apps/admin/widgets.ts";
 
 /** @title {{{title}}} - {{{href}}} */
-export interface Link {
+export interface Buttons {
   title: string;
   href: string;
 }
 
 export interface Props {
-  logo?: ImageWidget;
-  title?: string;
+  image?: ImageWidget;
+  primaryTitle?: string;
+  secondaryTitle?: string;
+  primaryButton?: Buttons;
+  secondaryButton?: Buttons;
   /** @format textarea */
-  headline?: string;
-  links?: Array<Link>;
+  description?: string;
 }
 
 export default function Hero({
-  title = "deco.cx",
-  logo = "/logo.svg",
-  headline =
-    "The digital experience platform that combines performance and personalization for the ultimate sales results.",
-  links = [
-    { title: "Official website", "href": "https://deco.cx/" },
-    { title: "Linkedin", "href": "https://www.linkedin.com/company/deco-cx/" },
-    { title: "Discord", "href": "https://deco.cx/discord" },
-  ],
+  primaryTitle = "Let us find your",
+  secondaryTitle = "Forever Home.",
+  image = "https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+  primaryButton = { title: "Get Started", href: "https://deco.cx/" },
+  secondaryButton = { title: "Learn More", href: "https://deco.cx/" },
+  description = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus numquam ea!",
 }: Props) {
   return (
-    <header class="lg:container mx-8 md:mx-16 lg:mx-auto mt-8 md:mt-12 mb-28 text-xl md:text-base">
-      <div class="mb-10 md:mb-20">
-        <img
-          class="object-cover w-20"
-          src={logo}
-          alt={title}
-        />
+    <section
+    style={{backgroundImage:`url(${image})`}}
+      class={`relative bg-cover bg-center bg-no-repeat`}
+    >
+      <div class="absolute inset-0 bg-white/75 sm:from-white/75 sm:bg-transparent from-50% sm:to-transparent bg-gradient-to-r"></div>
+
+      <div class="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
+        <div class="max-w-xl ltr:sm:text-left rtl:sm:text-right">
+          <h1 class="text-3xl font-extrabold sm:text-5xl">
+            {primaryTitle}
+            <strong class="block font-extrabold text-rose-700">
+              {secondaryTitle}
+            </strong>
+          </h1>
+
+          <p class="mt-4 max-w-lg sm:text-xl/relaxed">{description}</p>
+
+          <div class="mt-8 flex flex-wrap gap-4 text-center">
+            <a
+              href={primaryButton.href}
+              class="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
+            >
+              {primaryButton.title}
+            </a>
+
+            <a
+              href={secondaryButton.href}
+              class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+            >
+              {secondaryButton.title}
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="font-bold text-3xl lg:text-6xl leading-tight lg:leading-none xl:w-5/6">
-        {headline}
-      </div>
-      {!!links?.length && (
-        <ul class="mt-8 flex flex-col md:flex-row gap-2 md:gap-4">
-          {links.map(({ href, title }) => (
-            <li>
-              <a target="_blank" href={href} aria-label={title} class="link">
-                {title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </header>
+    </section>
   );
 }
